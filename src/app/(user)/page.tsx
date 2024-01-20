@@ -7,6 +7,8 @@ const newArrivalQuery = groq`*[_type == 'product' && position == 'New Arrivals']
   ...
 } | order(_createdAt asc)`;
 
+export const revalidate = 10;
+
 const HomePage = async () => {
   const newArrivalProducts = await client.fetch(newArrivalQuery);
 
@@ -14,7 +16,6 @@ const HomePage = async () => {
     <div>
       <Banner />
       <NewArrival products={newArrivalProducts} />
-      
     </div>
   );
 };
