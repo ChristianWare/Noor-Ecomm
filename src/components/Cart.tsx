@@ -4,18 +4,28 @@ import { useDispatch, useSelector } from "react-redux";
 import Container from "./Container";
 import { StateProps } from "../../type";
 import CartItem from "./CartItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { resetCart } from "@/redux/orebiSlice";
 import emptyCart from "@/assets/emptyCart.png";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Price from "./Price";
 
 const Cart = () => {
   const { productData } = useSelector((state: StateProps) => state.orebi);
   const dispatch = useDispatch();
   const [totalAmt, setTotalAmt] = useState(0);
+
+   useEffect(() => {
+     let price = 0;
+     productData.map((item) => {
+       price += item?.price * item?.quantity;
+       return price;
+     });
+     setTotalAmt(price);
+   }, [productData]);
 
   const handleReset = () => {
     const confirmed = window.confirm("Are you sure to reset your Cart?");
@@ -56,6 +66,39 @@ const Cart = () => {
               <p className='text-lg font-semibold'>Apply Coupon</p>
             </div>
             <p>Update Cart</p>
+          </div>
+          <div className='max-w-7xl gap-4 flex justify-end mt-4'>
+            <div className='w-96 flex flex-col gap-4'>
+              <h1 className='text-2xl font-semibold text-right'>Cart totals</h1>
+              <div>
+                <p className='flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium'>
+                  Subtotal{" "}
+                  <span>
+                    <Price amount={totalAmt} />
+                  </span>
+                </p>
+                <p className='flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium'>
+                  Shipping Charge
+                  <span className='font-semibold tracking-wide font-titleFont'>
+                    <Price amount={0} />
+                  </span>
+                </p>
+                <p className='flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium'>
+                  Total
+                  <span className='font-bold tracking-wide text-lg font-titleFont'>
+                    <Price amount={totalAmt} />
+                  </span>
+                </p>
+              </div>
+              <div className='flex justify-end'>
+                <button
+                //   onClick={createCheckout}
+                  className='w-52 h-10 bg-primeColor text-white hover:bg-black duration-300'
+                >
+                  Proceed to Checkout
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       ) : (
