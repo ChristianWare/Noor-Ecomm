@@ -12,7 +12,7 @@ import { StateProps } from "../../type";
 
 const PageButton = () => {
   const { productData } = useSelector((state: StateProps) => state.orebi);
-    const { data: session } = useSession();
+  const { data: session } = useSession();
 
   return (
     <div className='fixed top-60 right-2 z-20 flex flex-col gap-2'>
@@ -57,10 +57,10 @@ const PageButton = () => {
           <RiShoppingCart2Fill className='text-2xl -translate-x-12 group-hover:translate-x-3 transition-transform duration-200' />
           <RiShoppingCart2Fill className='text-2xl -translate-x-3 group-hover:translate-x-12 transition-transform duration-200' />
         </div>
-        <p className='text-xs font-semibold'>Buy Now</p>
-        <p className='absolute top-1 right-2 bg-primeColor text-white text-xs w-4 h-4 rounded-full flex items-center justify-center font-semibold'>
+        <span className='text-xs font-semibold'>Buy Now</span>
+        <span className='absolute top-1 right-2 bg-primeColor text-white text-xs w-4 h-4 rounded-full flex items-center justify-center font-semibold'>
           {productData ? productData?.length : 0}
-        </p>
+        </span>
       </Link>
       <Toaster
         position='bottom-right'
